@@ -22,4 +22,13 @@ hello
 
 $ node main.js notfound.md
 ENOENT: no such file or directory, open 'notfound.md'
+
+$ node main.js --gfm sample.md
+<h1 id="sample">sample</h1>
+<p>これはサンプルです。
+<a href="https://jsprimer.net/">https://jsprimer.net/</a></p>
+<ul>
+<li>サンプル1</li>
+<li>サンプル2</li>
+</ul>
 ```
