@@ -1,26 +1,19 @@
-//console.log("Hello World!");
-
-//console.log(process.argv);
-
-/*
-const myModule = require("./my-module");
-console.log(myModule.foo); // => "foo"
-
-// commanderモジュールをprogramオブジェクトとしてインポートする
-const program = require("commander");
-// コマンドライン引数をパースする
-program.parse(process.argv);
-
-// ファイルパスをprogram.args配列から取り出す
-const filePath = program.args[0];
-console.log(filePath);
-*/
-
 const program = require("commander");
 const fs = require("fs");
+const marked = require("marked");
 
+program.option("--gfm", "GFM Enabled");
 program.parse(process.argv);
 const filePath = program.args[0];
+
+const opt = program.opts();
+
+const cliOptions = {
+    // opt.gfm に false を代入するかどうかなので、`??=` を使うべき
+    // https://jsprimer.net/use-case/nodecli/md-to-html/
+    //gfm: opt.gfm ?? false
+    gfm: opt.gfm ??= false
+}
 
 /*
  * ファイルを非同期で読み込む
@@ -33,5 +26,8 @@ fs.readFile(filePath, { encoding: "utf8" }, (err, file) => {
         process.exit(1);
         return;
     }
-    console.log(file);
+    const html = marked.parse(file, {
+        gfm: cliOptions.gfm,
+    });
+    console.log(html);
 });
